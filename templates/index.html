@@ -6,6 +6,7 @@
     <title>个人博客</title>
     <link rel="stylesheet" href="/static/my/css/index.css">
     <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
     <script src="/static/js/vue.js"></script>
 </head>
 <body>
@@ -35,12 +36,160 @@
                         <div class="boutique_article card">
                            <div class="title">
                                 <h2>精选文章</h2>
-                                <div>
-                                    <a href="#">查看更多</a>
+                                <div class="switch_article_category">
+                                    <span :active="this_category === 'qianduan'" @click="switch_article_category('qianduan')">前端</span>
+                                    <span :active="this_category === 'houduan'" @click="switch_article_category('houduan')">后端</span>
                                 </div>
                             </div>
                             <div class="body">
-                                主要内容区域
+                                <ul v-show="this_category === 'qianduan'" class="qianduan">
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>前端</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul v-show="this_category === 'houduan'" class="houduan">
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>后端</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2>壁纸分享</h2>
+                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
+                                            <span>2天前</span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div class="hotList card">
@@ -60,9 +209,47 @@
                                 <h2>博客文章</h2>
                             </div>
                             <div class="body">
-                                主要内容区域
+                                <ul>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="#">壁纸分享</a></h2>
+                                            <p>120多张动漫壁纸、手机动漫壁纸、二次元壁纸、日本漫画壁纸、漫画壁纸分享 觉得这组动漫壁纸不错的话，动动小手点个赞，点个关注哦，赞多的话继续续更~</p>
+                                            <div class="article_info">
+                                                <span><i class="far fa-clock"></i>2023-1-1</span>
+                                                <span><i class="fas fa-thumbs-up"></i>123</span>
+                                                <span><i class="far fa-eye"></i>123</span>
+                                                <span><i class="fas fa-comments"></i>123</span>
+                                                <span><i class="fas fa-star-half-alt"></i>123</span>
+                                            </div>
+                                            <a href="#">查看详情</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="#">壁纸分享</a></h2>
+                                            <p>120多张动漫壁纸、手机动漫壁纸、二次元壁纸、日本漫画壁纸、漫画壁纸分享 觉得这组动漫壁纸不错的话，动动小手点个赞，点个关注哦，赞多的话继续续更~</p>
+                                            <div class="article_info">
+                                                <span><i class="far fa-clock"></i>2023-1-1</span>
+                                                <span><i class="fas fa-thumbs-up"></i>123</span>
+                                                <span><i class="far fa-eye"></i>123</span>
+                                                <span><i class="fas fa-comments"></i>123</span>
+                                                <span><i class="fas fa-star-half-alt"></i>123</span>
+                                            </div>
+                                            <a href="#">查看详情</a>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-
                         </div>
                     </div>
                     <div class="right">
@@ -170,8 +357,8 @@
             el: '#app',
             delimiters: ["[[", "]]"],
             data: {
-                msg: '张三',
-                theme: 'light',
+                theme: 'light', // 默认主题
+                this_category: 'qianduan', // 当前所在的位置（前端）
             },
             created() {
               this.initTheme()
@@ -190,6 +377,11 @@
                     if (theme) {
                         this.theme = theme
                     }
+                },
+
+                //选择分类
+                switch_article_category(categoryName) {
+                    this.this_category = categoryName
                 }
             }
 
