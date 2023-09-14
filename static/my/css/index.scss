@@ -1,3 +1,32 @@
+.card { // 公共样式 优先级第一
+    .title {
+      border-radius: 5px 5px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f5f5f5;
+      padding: 20px 20px 10px 20px;
+      background-color: white;
+
+      h2 {
+        font-size: 20px;
+      }
+
+      >div {
+        a {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .body {
+      border-radius: 0 0 5px 5px;
+      padding: 10px 20px 20px 20px;
+      background-color: white;
+
+    }
+  }
+
 #app {
   width: 100%;
 
@@ -87,39 +116,78 @@
     }
     .right {
       width: 30%;
-    }
 
-    >div >div{
-      margin-bottom: 20px;
-    }
-  }
+      .tags > .body{
+        position: relative;
 
-  .card {
-    .title {
-      border-radius: 5px 5px 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #f5f5f5;
-      padding: 20px 20px 10px 20px;
-      background-color: white;
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 10px;
 
-      h2 {
-        font-size: 20px;
-      }
+          li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc((100% - 2px) / 3);
+            height: 40px;
 
-      >div {
-        a {
-          font-size: 14px;
+            &:nth-child(6n + 1),&:nth-child(6n + 2),&:nth-child(6n + 3) {
+              background-color: #f5f5f5;
+            }
+
+            &:nth-child(3n + 1),&:nth-child(3n + 2) {
+              border-right: 1px solid #f0eeee;
+            }
+          }
+
+          &::before {
+            display: block;
+            width: 20px;
+            height: 20px;
+            content: "";
+            background-color: #ff9800;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            // 动画定义
+            -webkit-animation-name: move_box;
+            animation-name: move_box;
+            -webkit-animation-duration: 5s;
+            animation-duration: 5s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+          }
+
+          @keyframes move_box { // 标签云盒子动画
+            0% {
+              top: 0;
+              left: 0;
+            }
+            25% {
+              top: 0;
+              left: calc(100% - 20px);
+            }
+            50% {
+              top: calc(100% - 20px);
+              left: calc(100% - 20px);
+            }
+            75% {
+              top: calc(100% - 20px);
+              left: 0;
+            }
+            100% {
+              top: 0;
+              left: 0;
+            }
+          }
         }
       }
     }
 
-    .body {
-      border-radius: 0 0 5px 5px;
-      padding: 10px 20px 20px 20px;
-      background-color: white;
-
+    >div >div{
+      margin-bottom: 20px;
     }
   }
 
