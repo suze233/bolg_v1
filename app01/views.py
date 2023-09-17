@@ -1,4 +1,6 @@
+from django.http import JsonResponse
 from django.shortcuts import render
+import json
 
 # Create your views here.
 
@@ -13,7 +15,11 @@ def news(request):
 
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        data = request.data
+        print(data)
+        return JsonResponse(data)
+    return render(request, 'login.html', locals())
 
 
 def sign(request):
