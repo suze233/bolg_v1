@@ -29,9 +29,12 @@ urlpatterns = [
     path('login/random_code/', views.get_random_code),
     path('sign/', views.sign),
     path('logout/', views.logout),
+    path('backend/', views.backend),  # 个人中心
+    path('backend/edit_avatar/', views.edit_avatar),  # 修改头像
+    path('backend/reset_passwd/', views.reset_passwd),  # 修改密码
+    path('backend/add_article/', views.add_article),  # 添加文章
 
-    # 文章页
-    re_path(r'^article/(?P<nid>\d+)/', views.article),
+    re_path(r'^article/(?P<nid>\d+)/', views.article),  # 文章页
     # 路由分发，将所有api开头的请求分发出去
     re_path(r'^api/', include('api.urls')),
     # 用户上传文件

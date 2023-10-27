@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台界面</title>
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/backend/backend_base.css">
+    <link rel="stylesheet" href="/static/element/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <aside>
+        <div class="slogan">
+            <img src="/static/my/img/backend/slogan.png" alt="">
+        </div>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/backend/">个人中心</a></li>
+            <li><a href="/backend/edit_avatar/">修改头像</a></li>
+            <li><a href="/backend/reset_passwd/">修改密码</a></li>
+            {% if request.user.is_superuser %}
+                <li><a href="/backend/add_article/">添加文章</a></li>
+            {% endif %}
+            <li><a href="/logout/">注销退出</a></li>
+        </ul>
+    </aside>
+    <main>
+        {% block main %}
+            <div class="user_info">
+                <div class="left">
+                    <img src="https://p.qqan.com/up/2021-7/16272658316539549.jpg" alt="">
+
+                </div>
+                <div class="right">
+                    <div class="item">
+                        <span><b>用户名：</b>suze</span>
+                    </div>
+                    <div class="item">
+                        <span><b>注册时间：</b>2023-10-27</span>
+                    </div>
+                    <div class="item">
+                        <span><b>上次登录时间：</b>2023-10-27</span>
+                    </div>
+                    <div class="item">
+                        <span><b>用户积分：</b>20</span>
+                    </div>
+                    <div class="item">
+                        <span><b>邮箱：</b>1234567</span>
+                    </div>
+                    <div class="item">
+                        <span><b>手机号码：</b>1234567</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="actions">
+                <div class="item">
+                    <el-button type="primary">完善信息</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="success">修改头像</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="warning">修改密码</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="danger">注销退出</el-button>
+                </div>
+            </div>
+            {% block content %}
+                <div class="collection_article_all">
+                <p>我收藏的文章</p>
+                <div class="article_list">
+                    <div class="item">
+                        <div class="left">
+                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.1908462bbdcdaec638b3466d96730ced?rik=A%2frR1%2b7ByA8pBw&riu=http%3a%2f%2fimg.sccnn.com%2fbimg%2f343%2f201013134630-5.jpg&ehk=Ko9c19%2fOgr1CW2jgQiFzNSEgjCcDFzaBRrq16%2fSAW04%3d&risl=&pid=ImgRaw&r=0" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="left">
+                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.1908462bbdcdaec638b3466d96730ced?rik=A%2frR1%2b7ByA8pBw&riu=http%3a%2f%2fimg.sccnn.com%2fbimg%2f343%2f201013134630-5.jpg&ehk=Ko9c19%2fOgr1CW2jgQiFzNSEgjCcDFzaBRrq16%2fSAW04%3d&risl=&pid=ImgRaw&r=0" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="left">
+                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.1908462bbdcdaec638b3466d96730ced?rik=A%2frR1%2b7ByA8pBw&riu=http%3a%2f%2fimg.sccnn.com%2fbimg%2f343%2f201013134630-5.jpg&ehk=Ko9c19%2fOgr1CW2jgQiFzNSEgjCcDFzaBRrq16%2fSAW04%3d&risl=&pid=ImgRaw&r=0" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="left">
+                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.1908462bbdcdaec638b3466d96730ced?rik=A%2frR1%2b7ByA8pBw&riu=http%3a%2f%2fimg.sccnn.com%2fbimg%2f343%2f201013134630-5.jpg&ehk=Ko9c19%2fOgr1CW2jgQiFzNSEgjCcDFzaBRrq16%2fSAW04%3d&risl=&pid=ImgRaw&r=0" alt="">
+                        </div>
+                        <div class="right">
+                            <h4>路由分发</h4>
+                            <p>这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍这是文章介绍</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        {% endblock %}
+    </main>
+</div>
+
+<script src="/static/vue/vue.js"></script>
+<script src="/static/element/index.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+    })
+</script>
+</body>
+</html>
