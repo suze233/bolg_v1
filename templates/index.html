@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>个人博客</title>
-    <link rel="stylesheet" href="/static/my/css/index.css">
     <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/base.css">
+    {% block css %}
+        <link rel="stylesheet" href="/static/my/css/index.css">
+    {% endblock %}
     <link rel="stylesheet" href="/static/fontawesome-free-5/css/all.min.css">
     <link rel="stylesheet" href="/static/element/theme-chalk/index.css">
     <script src="/static/vue/vue.js"></script>
@@ -47,7 +50,9 @@
 
             </div>
         </nav>
-        {% banner 'index' %}
+        {% block banner %}
+            {% banner 'index' %}
+        {% endblock %}
         <main>
             {% block main %}
                 <div class="main">
@@ -407,7 +412,7 @@
         })
 
         // 轮播图
-        let menu_img = document.querySelectorAll('.dynamic_shuffl')
+        let menu_img = document.querySelectorAll('.dynamic_shuffle')
         let menu_length = menu_img.length
         let index = 0 // 初始位置
         let timer = null
@@ -428,5 +433,8 @@
             menu_img[index].style.opacity = 1
         }, 5000)
     </script>
+{% block js %}
+	
+{% endblock %}
 </body>
 </html>

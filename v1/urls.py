@@ -14,9 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include, re_path
 from app01 import views
+from django.views.static import serve
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +30,10 @@ urlpatterns = [
     path('sign/', views.sign),
     path('logout/', views.logout),
 
-    re_path(r'^api/', include('api.urls')),  # 路由分发，将所有api开头的请求分发出去
+    # 文章页
+    re_path(r'^article/(?P<nid>\d+)/', views.article),
+    # 路由分发，将所有api开头的请求分发出去
+    re_path(r'^api/', include('api.urls')),
+    # 用户上传文件
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

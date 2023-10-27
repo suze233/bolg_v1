@@ -4,6 +4,7 @@ from app01.utils.random_code import random_code
 from django import forms
 from django.contrib import auth
 from app01.models import UserInfo
+from app01.models import Articles
 
 
 # Create your views here.
@@ -34,3 +35,11 @@ def sign(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+
+def article(request, nid):
+    article_query = Articles.objects.filter(nid=nid)
+    if not article_query:
+        return redirect('/')
+    article = article_query.first()
+    return render(request, 'article.html', locals())
