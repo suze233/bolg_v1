@@ -36,10 +36,12 @@
                 <span>来源：<i>{{ article.source }}</i></span>
             </p>
             <div>
-                <i title="文章标签" class="fas fa-tags"></i>
-                {% for tag in article.tag.all %}
-                    <i>{{ tag.title }}</i>
-                {% endfor %}
+                {% if article.tag.all %}
+                    <i title="文章标签" class="fas fa-tags"></i>
+                    {% for tag in article.tag.all %}
+                        <i>{{ tag.title }}</i>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <div class="article_content" id="article_content">
@@ -64,21 +66,30 @@
             <ul>
                 <li>
                     <div class="left">
-                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp" alt="">
+                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp"
+                             alt="">
                     </div>
                     <div class="right">
                         <h4>你的名字</h4>
                         <div class="comment_content">
                             <p>你好!</p>
                             <div>
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
                             </div>
 
                         </div>
@@ -94,7 +105,8 @@
                         <div class="sub_comment_list">
                             <div class="sub_comment_item">
                                 <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="">
+                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                         alt="">
                                 </div>
                                 <div class="right">
                                     <h4>xxx @ 你的名字</h4>
@@ -113,7 +125,8 @@
                             </div>
                             <div class="sub_comment_item">
                                 <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="">
+                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                         alt="">
                                 </div>
                                 <div class="right">
                                     <h4>xxx @ 你的名字</h4>
@@ -135,21 +148,30 @@
                 </li>
                 <li>
                     <div class="left">
-                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp" alt="">
+                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp"
+                             alt="">
                     </div>
                     <div class="right">
                         <h4>你的名字</h4>
                         <div class="comment_content">
                             <p>你好!</p>
                             <div>
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp " alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
+                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
+                                     alt="">
                             </div>
 
                         </div>
@@ -165,7 +187,8 @@
                         <div class="sub_comment_list">
                             <div class="sub_comment_item">
                                 <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="">
+                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                         alt="">
                                 </div>
                                 <div class="right">
                                     <h4>xxx @ 你的名字</h4>
@@ -184,7 +207,8 @@
                             </div>
                             <div class="sub_comment_item">
                                 <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="">
+                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                         alt="">
                                 </div>
                                 <div class="right">
                                     <h4>xxx @ 你的名字</h4>

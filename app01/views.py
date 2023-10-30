@@ -4,7 +4,7 @@ from app01.utils.random_code import random_code
 from django import forms
 from django.contrib import auth
 from app01.models import UserInfo
-from app01.models import Articles
+from app01.models import Articles, Tags, Cover
 
 
 # Create your views here.
@@ -52,6 +52,16 @@ def backend(request):
 
 
 def add_article(request):
+    # 拿到所有分类标签，文章封面
+    tag_list = Tags.objects.all()
+    cover_list = Cover.objects.all()
+    c_l = []
+    for cover in cover_list:
+        c_l.append({
+            "url": cover.url.url,
+            "nid": cover.nid
+        })
+
     return render(request, 'backend/add_article.html', locals())
 
 
