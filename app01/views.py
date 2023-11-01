@@ -11,7 +11,10 @@ from app01.models import Articles, Tags, Cover
 
 
 def index(request):
-    return render(request, 'index.html', {'request': request})
+    article_list = Articles.objects.filter(status=1).order_by('-change_date')
+    frontend_list = article_list.filter(category=1)[:6]
+    backend_list = article_list.filter(category=2)[:6]
+    return render(request, 'index.html', locals())
 
 
 def news(request):
@@ -61,7 +64,7 @@ def add_article(request):
             "url": cover.url.url,
             "nid": cover.nid
         })
-
+    category_list = Articles.category_choice
     return render(request, 'backend/add_article.html', locals())
 
 
@@ -71,3 +74,19 @@ def edit_avatar(request):
 
 def reset_passwd(request):
     return render(request, 'backend/reset_passwd.html', locals())
+
+
+def edit_article(request, nid):
+    # 拿到所有分类标签，文章封面
+    tag_list = Tags.objects.all()
+    cover_list = Cover.objects.all()
+    c_l = []
+    for cover in cover_list:
+        c_l.append({
+            "url": cover.url.url,
+            "nid": cover.nid
+        })
+    category_list = Articles.category_choice
+    article_obj = Articles.objects.get(nid=nid)
+    tags = [str(tag.nid) for tag in article_obj.tag.all()]
+    return render(request, 'backend/edit_article.html', locals())

@@ -10,6 +10,7 @@ from api.views.login import clean_form
 from app01.models import Tags, Articles, Cover
 
 
+# 添加、编辑文章的验证
 class AddArticleForm(forms.Form):
     content = forms.CharField(error_messages={'required': '请输入文章内容'})
     title = forms.CharField(error_messages={'required': '请输入文章标题'})
@@ -50,7 +51,19 @@ class AddArticleForm(forms.Form):
         return cover_id
 
 
+# 给文章添加标签
+def add_article_tags(article_obj, tags):
+    for tag in tags:
+        tag_isdigit = tag.isdigit()
+        if (tag_isdigit and not Tags.objects.filter(nid=tag)) or not tag_isdigit:
+            tag_obj = Tags.objects.create(title=tag)
+            article_obj.tag.add(tag_obj.nid)
+        else:
+            article_obj.tag.add(tag)
+
+
 class ArticleView(View):
+    # 添加文章
     def post(self, request):
         res = {
             'msg': '文章发布成功',
@@ -70,17 +83,40 @@ class ArticleView(View):
 
         article_obj = Articles.objects.create(**form.cleaned_data)
         tags = data.get('tags')
-
-        for tag in tags:
-            tag_isdigit = tag.isdigit()
-            if (tag_isdigit and not Tags.objects.filter(nid=tag)) or not tag_isdigit:
-                tag_obj = Tags.objects.create(title=tag)
-                article_obj.tag.add(tag_obj.nid)
-            else:
-                article_obj.tag.add(tag)
+        # 添加标签
+        add_article_tags(article_obj, tags)
 
         res['code'] = 0
         res['data'] = article_obj.nid
+        return JsonResponse(res)
+
+    # 编辑文章
+    def put(self, request, nid):
+        res = {
+            'msg': '文章修改成功',
+            'code': 233,
+            'data': None
+        }
+        article_query = Articles.objects.filter(nid=nid)
+        if not article_query:
+            res['msg'] = '请求错误'
+            return JsonResponse(res)
+        data = request.data
+        data['status'] = 1
+        form = AddArticleForm(data)
+        if not form.is_valid():
+            # 验证不通过
+            res['self'], res['msg'] = clean_form(form)
+            return JsonResponse(res)
+        # 验证通过
+        article_query.update(**form.cleaned_data)
+        tags = data.get('tags')
+        # 标签修改
+        article_query.first().tag.clear()  # 删除所有标签
+        add_article_tags(article_query.first(), tags)  # 重新添加标签
+
+        res['code'] = 0
+        res['data'] = article_query.first().nid
         return JsonResponse(res)
 
 # 文章

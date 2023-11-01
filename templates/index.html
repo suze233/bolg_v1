@@ -15,426 +15,296 @@
     <script src="/static/element/index.js"></script>
 </head>
 <body>
-    <div id="app">
-        <link rel="stylesheet" :href="'/static/my/css/theme/' + [[ theme ]] + '.css'">
-        <nav>
-            <div class="left">
-                <a href="/">首页</a>
-                <a href="/news">新闻</a>
-                <a href="#">心情</a>
-                <a href="#">回忆录</a>
-                <a href="#">关于</a>
-                <a href="#">网站导航</a>
-            </div>
-            <div class="right">
-                <img v-show="theme === 'light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
-                <img v-show="theme === 'dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
+<div id="app">
+    <link rel="stylesheet" :href="'/static/my/css/theme/' + [[ theme ]] + '.css'">
+    <nav>
+        <div class="left">
+            <a href="/">首页</a>
+            <a href="/news">新闻</a>
+            <a href="#">心情</a>
+            <a href="#">回忆录</a>
+            <a href="#">关于</a>
+            <a href="#">网站导航</a>
+        </div>
+        <div class="right">
+            <img v-show="theme === 'light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
+            <img v-show="theme === 'dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
 
-                {% if request.user.username %}
-                    <el-dropdown>
+            {% if request.user.username %}
+                <el-dropdown>
                         <span class="el-dropdown-link">
                             {{ request.user.username }}<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item><a href="/backend/">个人中心</a></el-dropdown-item>
-                            <el-dropdown-item><a href="/backend/edit_avatar/">修改头像</a></el-dropdown-item>
-                            <el-dropdown-item><a href="/backend/add_article/">发布文章</a></el-dropdown-item>
-                            <el-dropdown-item><a href="/admin/">后台管理</a></el-dropdown-item>
-                            <el-dropdown-item><a href="/logout/">注销退出</a></el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                {% else %}
-                    <a href="/login">登录</a>
-                    <a href="/sign">注册</a>
-                {% endif %}
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item><a href="/backend/">个人中心</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/backend/edit_avatar/">修改头像</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/backend/add_article/">发布文章</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/admin/">后台管理</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/logout/">注销退出</a></el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            {% else %}
+                <a href="/login">登录</a>
+                <a href="/sign">注册</a>
+            {% endif %}
 
+        </div>
+    </nav>
+    {% block banner %}
+        {% banner 'index' %}
+    {% endblock %}
+    <main>
+        {% block main %}
+            <div class="main">
+                <div class="left">
+                    <div class="boutique_article card">
+                        <div class="title">
+                            <h2>精选文章</h2>
+                            <div class="switch_article_category">
+                                <span :active="this_category === 'qianduan'"
+                                      @click="switch_article_category('qianduan')">前端</span>
+                                <span :active="this_category === 'houduan'" @click="switch_article_category('houduan')">后端</span>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <ul v-show="this_category === 'qianduan'" class="qianduan">
+                                {% for frontend in frontend_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ frontend.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="/article/{{ frontend.nid }}">{{ frontend.title }}</a></h2>
+                                            <p>{{ frontend.abstract }}</p>
+                                            <span>{{ frontend.create_date }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <ul v-show="this_category === 'houduan'" class="houduan">
+                                {% for backend in backend_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ backend.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="/article/{{ backend.nid }}">{{ backend.title }}</a></h2>
+                                            <p>{{ backend.abstract }}</p>
+                                            <span>{{ backend.create_date }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hotList card">
+                        <div class="title">
+                            <h2>今日热搜</h2>
+                            <div>
+                                <a href="#">查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+                        </div>
+
+                    </div>
+                    <div class="all_article card">
+                        <div class="title">
+                            <h2>博客文章</h2>
+                        </div>
+                        <div class="body">
+                            <ul>
+                                {% for article in article_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ article.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="/article/{{ article.nid }}/">{{ article.title }}</a></h2>
+                                            <p>{{ article.abstract }}</p>
+                                            <div class="article_info">
+                                                <span><i class="far fa-clock"></i>{{ article.create_date|date:'Y-m-d' }}</span>
+                                                <span><i class="fas fa-thumbs-up"></i>{{ article.digg_count }}</span>
+                                                <span><i class="far fa-eye"></i>{{ article.look_count }}</span>
+                                                <span><i class="fas fa-comments"></i>{{ article.comment_count }}</span>
+                                                <span><i
+                                                        class="fas fa-star-half-alt"></i>{{ article.collects_count }}</span>
+                                            </div>
+                                            <a href="/article/{{ article.nid }}/" target="_blank">查看详情</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="advertisement card">
+                        <div class="title">
+                            <h2>独家广告</h2>
+                            <div>
+                                <a href="">申请广告位</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+                        </div>
+                    </div>
+                    <div class="tags card">
+                        <div class="title">
+                            <h2>标签云</h2>
+                        </div>
+                        <div class="body">
+                            <ul>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                                <li>Python</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site_info card">
+                        <div class="title">
+                            <h2>站点信息</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+                        </div>
+                    </div>
+                    <div class="links card">
+                        <div class="title">
+                            <h2>友情链接</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </nav>
-        {% block banner %}
-            {% banner 'index' %}
         {% endblock %}
-        <main>
-            {% block main %}
-                <div class="main">
-                    <div class="left">
-                        <div class="boutique_article card">
-                           <div class="title">
-                                <h2>精选文章</h2>
-                                <div class="switch_article_category">
-                                    <span :active="this_category === 'qianduan'" @click="switch_article_category('qianduan')">前端</span>
-                                    <span :active="this_category === 'houduan'" @click="switch_article_category('houduan')">后端</span>
-                                </div>
-                            </div>
-                            <div class="body">
-                                <ul v-show="this_category === 'qianduan'" class="qianduan">
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>前端</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul v-show="this_category === 'houduan'" class="houduan">
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>后端</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2>壁纸分享</h2>
-                                            <p>动漫图片壁纸，100张精选。动漫图片壁纸，100张精选。</p>
-                                            <span>2天前</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="hotList card">
-                            <div class="title">
-                                <h2>今日热搜</h2>
-                                <div>
-                                    <a href="#">查看更多</a>
-                                </div>
-                            </div>
-                            <div class="body">
-                                主要内容区域
-                            </div>
-
-                        </div>
-                        <div class="all_article card">
-                            <div class="title">
-                                <h2>博客文章</h2>
-                            </div>
-                            <div class="body">
-                                <ul>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2><a href="#">壁纸分享</a></h2>
-                                            <p>120多张动漫壁纸、手机动漫壁纸、二次元壁纸、日本漫画壁纸、漫画壁纸分享 觉得这组动漫壁纸不错的话，动动小手点个赞，点个关注哦，赞多的话继续续更~</p>
-                                            <div class="article_info">
-                                                <span><i class="far fa-clock"></i>2023-1-1</span>
-                                                <span><i class="fas fa-thumbs-up"></i>123</span>
-                                                <span><i class="far fa-eye"></i>123</span>
-                                                <span><i class="fas fa-comments"></i>123</span>
-                                                <span><i class="fas fa-star-half-alt"></i>123</span>
-                                            </div>
-                                            <a href="#">查看详情</a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="left">
-                                            <div>
-                                                <img src="https://i0.hdslb.com/bfs/article/ea9667c2cc9f8a3f5c5523c257ec27ca685148a0.jpg@1256w_746h_!web-article-pic.webp" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <h2><a href="#">壁纸分享</a></h2>
-                                            <p>120多张动漫壁纸、手机动漫壁纸、二次元壁纸、日本漫画壁纸、漫画壁纸分享 觉得这组动漫壁纸不错的话，动动小手点个赞，点个关注哦，赞多的话继续续更~</p>
-                                            <div class="article_info">
-                                                <span><i class="far fa-clock"></i>2023-1-1</span>
-                                                <span><i class="fas fa-thumbs-up"></i>123</span>
-                                                <span><i class="far fa-eye"></i>123</span>
-                                                <span><i class="fas fa-comments"></i>123</span>
-                                                <span><i class="fas fa-star-half-alt"></i>123</span>
-                                            </div>
-                                            <a href="#">查看详情</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="advertisement card">
-                            <div class="title">
-                                <h2>独家广告</h2>
-                                <div>
-                                    <a href="">申请广告位</a>
-                                </div>
-                            </div>
-                            <div class="body">
-                                主要内容区域
-                            </div>
-                        </div>
-                        <div class="tags card">
-                            <div class="title">
-                                <h2>标签云</h2>
-                            </div>
-                            <div class="body">
-                                <ul>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                    <li>Python</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="site_info card">
-                            <div class="title">
-                                <h2>站点信息</h2>
-                            </div>
-                            <div class="body">
-                                主要内容区域
-                            </div>
-                        </div>
-                        <div class="links card">
-                            <div class="title">
-                                <h2>友情链接</h2>
-                            </div>
-                            <div class="body">
-                                主要内容区域
-                            </div>
-
-                        </div>
-                    </div>
+    </main>
+    <footer>
+        <div class="left">
+            <p class="thank">Thank For</p>
+            <p class="site_info">
+                <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云服务器</span>
+                <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云SSL证书</span>
+                <span><img src="/static/my/img/footer/qiniu.png" alt="">七牛云存储</span>
+            </p>
+            <p class="version">
+                <span>version</span>
+                <span>1.0</span>
+            </p>
+            <p>建站日期：2023-9-11</p>
+            <p class="beian">
+                <a href="#"><img src="/static/my/img/footer/beian.png" alt="">备案号：xxx</a>
+            </p>
+        </div>
+        <div class="right">
+            <div class="contact">
+                <div>
+                    <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
+                    <img class="qq" src="/static/my/img/footer/qq.png" alt="">
                 </div>
-            {% endblock %}
-        </main>
-        <footer>
-            <div class="left">
-                <p class="thank">Thank For</p>
-                <p class="site_info">
-                    <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云服务器</span>
-                    <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云SSL证书</span>
-                    <span><img src="/static/my/img/footer/qiniu.png" alt="">七牛云存储</span>
-                </p>
-                <p class="version">
-                    <span>version</span>
-                    <span>1.0</span>
-                </p>
-                <p>建站日期：2023-9-11</p>
-                <p class="beian">
-                    <a href="#"><img src="/static/my/img/footer/beian.png" alt="">备案号：xxx</a>
-                </p>
-            </div>
-            <div class="right">
-                <div class="contact">
-                    <div>
-                        <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
-                        <img class="qq" src="/static/my/img/footer/qq.png" alt="">
-                    </div>
-                    <div>
-                        <a href="https://space.bilibili.com/395114162" target="_blank">
-                            <img class="svg" src="/static/my/img/footer/bilibili_icon.svg" alt="">
-                        </a>
-                    </div>
-                    <div>
-                        <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
-                        <img class="qq" src="/static/my/img/footer/qq.png" alt="">
-                    </div>
-                    <div>
-                        <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
-                        <img class="qq" src="/static/my/img/footer/qq.png" alt="">
-                    </div>
+                <div>
+                    <a href="https://space.bilibili.com/395114162" target="_blank">
+                        <img class="svg" src="/static/my/img/footer/bilibili_icon.svg" alt="">
+                    </a>
                 </div>
-                <p>
-                    联系方式：123456789
-                </p>
+                <div>
+                    <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
+                    <img class="qq" src="/static/my/img/footer/qq.png" alt="">
+                </div>
+                <div>
+                    <img class="svg" src="/static/my/img/footer/qq_icon.svg" alt="">
+                    <img class="qq" src="/static/my/img/footer/qq.png" alt="">
+                </div>
             </div>
-        </footer>
-    </div>
-    <script>
-        new Vue ({
-            el: '#app',
-            delimiters: ["[[", "]]"],
-            data: {
-                theme: 'light', // 默认主题
-                this_category: 'qianduan', // 当前所在的位置（前端）
+            <p>
+                联系方式：123456789
+            </p>
+        </div>
+    </footer>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ["[[", "]]"],
+        data: {
+            theme: 'light', // 默认主题
+            this_category: 'qianduan', // 当前所在的位置（前端）
+        },
+        created() {
+            this.initTheme()
+        },
+        methods: {
+            // 设置主题
+            setTheme(themeName) {
+                this.theme = themeName
+                // 持久化存储
+                localStorage.setItem('theme', themeName)
             },
-            created() {
-              this.initTheme()
-            },
-            methods: {
-                // 设置主题
-                setTheme(themeName) {
-                    this.theme = themeName
-                    // 持久化存储
-                    localStorage.setItem('theme', themeName)
-                },
 
-                initTheme() {
-                    // 读取存储的theme信息
-                    let theme = localStorage.getItem('theme')
-                    if (theme) {
-                        this.theme = theme
-                    }
-                },
-
-                //选择分类
-                switch_article_category(categoryName) {
-                    this.this_category = categoryName
+            initTheme() {
+                // 读取存储的theme信息
+                let theme = localStorage.getItem('theme')
+                if (theme) {
+                    this.theme = theme
                 }
+            },
+
+            //选择分类
+            switch_article_category(categoryName) {
+                this.this_category = categoryName
             }
+        }
 
-        })
+    })
 
-        // 轮播图
-        let menu_img = document.querySelectorAll('.dynamic_shuffle')
-        let menu_length = menu_img.length
-        let index = 0 // 初始位置
-        let timer = null
+    // 轮播图
+    let menu_img = document.querySelectorAll('.dynamic_shuffle')
+    let menu_length = menu_img.length
+    let index = 0 // 初始位置
+    let timer = null
 
-        clearInterval(timer)
+    clearInterval(timer)
 
-        timer = setInterval(() => {
-            index ++
-            // 循环
-            if (index === menu_length) {
-                index = 0
-            }
-            // 样式复原
-            for (let i of menu_img) {
-                i.style.opacity = 0
-            }
+    timer = setInterval(() => {
+        index++
+        // 循环
+        if (index === menu_length) {
+            index = 0
+        }
+        // 样式复原
+        for (let i of menu_img) {
+            i.style.opacity = 0
+        }
 
-            menu_img[index].style.opacity = 1
-        }, 5000)
-    </script>
+        menu_img[index].style.opacity = 1
+    }, 5000)
+</script>
 {% block js %}
-	
+
 {% endblock %}
 </body>
 </html>

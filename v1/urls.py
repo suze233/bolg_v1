@@ -33,6 +33,7 @@ urlpatterns = [
     path('backend/edit_avatar/', views.edit_avatar),  # 修改头像
     path('backend/reset_passwd/', views.reset_passwd),  # 修改密码
     path('backend/add_article/', views.add_article),  # 添加文章
+    re_path(r'^backend/edit_article/(?P<nid>\d+)/', views.edit_article),  # 编辑文章
 
     re_path(r'^article/(?P<nid>\d+)/', views.article),  # 文章页
     # 路由分发，将所有api开头的请求分发出去
