@@ -55,185 +55,68 @@
             <div class="title">
                 你觉得文章怎么样
             </div>
+            {% csrf_token %}
             <div class="body">
-                <textarea name="" id="" cols="30" rows="10" placeholder="写下你想说的话"></textarea>
-                <button class="submit_comment">
+                <textarea name="" id="" cols="30" rows="10" ref="comment_content" v-model="comment_content" placeholder="写下你想说的话"></textarea>
+                <button class="submit_comment" @click="add_comment({{ article.nid }})">
                     分布评论
                 </button>
             </div>
             <div class="footer">
-                <p><span>49</span>人参与，<span>3</span>条评论</p>
+                <p><span>50</span>人参与，<span>3</span>条评论</p>
             </div>
-
         </div>
+
         <div class="comment_list">
             <ul>
-                <li>
-                    <div class="left">
-                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp"
-                             alt="">
-                    </div>
-                    <div class="right">
-                        <h4>你的名字</h4>
-                        <div class="comment_content">
-                            <p>你好!</p>
-                            <div>
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                            </div>
-
+                {% for comment in comment_list %}
+                    <li>
+                        <div class="left">
+                            <img src="{{ comment.user.avatar.url.url }}"
+                                 alt="">
                         </div>
-                        <div class="comment_info">
-                            <span>刚刚</span>
-                            <div>
-                                <span>点赞(0)</span>
-                                <span>回复(0)</span>
-                                <span class="delete">删除</span>
-
+                        <div class="right">
+                            <h4>{{ comment.user.username }}</h4>
+                            <div class="comment_content">
+                                {{ comment.content }}
                             </div>
-                        </div>
-                        <div class="sub_comment_list">
-                            <div class="sub_comment_item">
-                                <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                         alt="">
+                            <div class="comment_info">
+                                <span>{{ comment.create_time }}</span>
+                                <div>
+                                    <span>点赞({{ comment.digg_count }})</span>
+                                    <span>回复({{ comment.comment_count }})</span>
+                                    <span class="delete">删除</span>
                                 </div>
-                                <div class="right">
-                                    <h4>xxx @ 你的名字</h4>
-                                    <div class="sub_comment_content">
-                                        你好!
+                            </div>
+
+                            <div class="sub_comment_list">
+                                {% for sub_comment in comment.sub_comment %}
+                                    <div class="sub_comment_item">
+                                    <div class="left">
+                                        <img src="{{ sub_comment.user.avatar.url.url }}"
+                                             alt="">
                                     </div>
-                                    <div class="sub_comment_info">
-                                        <span>2秒前</span>
-                                        <div>
-                                            <span>点赞(0)</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
+                                    <div class="right">
+                                        <h4>{{ sub_comment.user.username }} 回复 {{ sub_comment.parent_comment.user.username }}</h4>
+                                        <div class="sub_comment_content">
+                                            {{ sub_comment.content }}
+                                        </div>
+                                        <div class="sub_comment_info">
+                                            <span>{{ sub_comment.create_time }}</span>
+                                            <div>
+                                                <span>点赞({{ sub_comment.digg_count }})</span>
+                                                <span>回复</span>
+                                                <span class="delete">删除</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="sub_comment_item">
-                                <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                         alt="">
-                                </div>
-                                <div class="right">
-                                    <h4>xxx @ 你的名字</h4>
-                                    <div class="sub_comment_content">
-                                        你好!
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>2秒前</span>
-                                        <div>
-                                            <span>点赞(0)</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="left">
-                        <img src="https://i1.hdslb.com/bfs/face/ff445d09efe51be21b6d8170e746699899fb9c52.jpg@92w_92h.webp"
-                             alt="">
-                    </div>
-                    <div class="right">
-                        <h4>你的名字</h4>
-                        <div class="comment_content">
-                            <p>你好!</p>
-                            <div>
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                                <img src=" https://i0.hdslb.com/bfs/article/6363c8ef433cd3351b4eb3368f4151663e37d317.jpg@1256w_798h_!web-article-pic.webp "
-                                     alt="">
-                            </div>
-
-                        </div>
-                        <div class="comment_info">
-                            <span>刚刚</span>
-                            <div>
-                                <span>点赞(0)</span>
-                                <span>回复(0)</span>
-                                <span class="delete">删除</span>
-
-                            </div>
-                        </div>
-                        <div class="sub_comment_list">
-                            <div class="sub_comment_item">
-                                <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                         alt="">
-                                </div>
-                                <div class="right">
-                                    <h4>xxx @ 你的名字</h4>
-                                    <div class="sub_comment_content">
-                                        你好!
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>2秒前</span>
-                                        <div>
-                                            <span>点赞(0)</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sub_comment_item">
-                                <div class="left">
-                                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.RR6081d7yzmAye6o8mNUggAAAA?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                         alt="">
-                                </div>
-                                <div class="right">
-                                    <h4>xxx @ 你的名字</h4>
-                                    <div class="sub_comment_content">
-                                        你好!
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>2秒前</span>
-                                        <div>
-                                            <span>点赞(0)</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                {% endfor %}
             </ul>
-
         </div>
     </div>
 

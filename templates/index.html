@@ -246,13 +246,31 @@
         </div>
     </footer>
 </div>
+<script src="/static/axios/axios.min.js"></script>
 <script>
+    // 请求中间件
+    axios.interceptors.request.use (
+            request => {
+            if (request.method === 'post') {
+                let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                request.headers['X-CSRFToken'] = csrftoken
+            }
+            return request
+        },
+    )
+    axios.interceptors.response.use (
+        response => {
+            return response.data
+        }
+    )
+
     new Vue({
         el: '#app',
         delimiters: ["[[", "]]"],
         data: {
             theme: 'light', // 默认主题
             this_category: 'qianduan', // 当前所在的位置（前端）
+            comment_content: '', // 评论内容
         },
         created() {
             this.initTheme()
@@ -276,6 +294,23 @@
             //选择分类
             switch_article_category(categoryName) {
                 this.this_category = categoryName
+            },
+
+            //发布评论
+            add_comment(nid){
+                axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res=>{
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
             }
         }
 
