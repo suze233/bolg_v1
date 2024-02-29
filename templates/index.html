@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/static/element/theme-chalk/index.css">
     <script src="/static/vue/vue.js"></script>
     <script src="/static/element/index.js"></script>
+    <script src="/static/jquery/jquery.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -302,6 +303,48 @@
                     if (res.code) {
                         if (res.self) {
                             this.$refs[`comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
+            }, 
+            //将被评论用户的用户名写到placeholder
+            set_sub_placeholder(div, username, cid){
+                $(div).find('textarea').attr('placeholder', `回复 ${username}`)
+                $(div).find('textarea').attr('cid', cid)
+            },
+            
+            //展示子评论列表
+            show_sub_comment_list(e, username, cid) {
+                let div = $(e.target).parent().parent().next()
+                $(div).slideToggle()
+                
+                this.set_sub_placeholder(div, username, cid)
+            },
+            
+            // 子评论回复显示
+            sub_comment_set_placeholder(e, username, cid){
+                let div = $(e.target).parents('.sub_comment_list')
+                this.set_sub_placeholder(div, username, cid)
+            },
+            
+            //发布子评论
+            add_sub_comment(e, nid) {
+                // nid: 文章id
+                // cid: 评论id
+                axios.post(`/api/article/comment/${nid}/`, {
+                    content: $(e.target).prev().val(),
+                    pid: $(e.target).prev().attr('cid') // 不是很好啊 我前端改了cid怎么办
+                    
+                }).then(res=>{
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`sub_comment_${res.self}`].focus();
                         }
                         this.$message.error(res.msg)
                         return

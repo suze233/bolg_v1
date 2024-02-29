@@ -84,7 +84,7 @@
                                 <span>{{ comment.create_time }}</span>
                                 <div>
                                     <span>点赞({{ comment.digg_count }})</span>
-                                    <span>回复({{ comment.comment_count }})</span>
+                                    <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复({{ comment.comment_count }})</span>
                                     <span class="delete">删除</span>
                                 </div>
                             </div>
@@ -92,26 +92,31 @@
                             <div class="sub_comment_list">
                                 {% for sub_comment in comment.sub_comment %}
                                     <div class="sub_comment_item">
-                                    <div class="left">
-                                        <img src="{{ sub_comment.user.avatar.url.url }}"
-                                             alt="">
-                                    </div>
-                                    <div class="right">
-                                        <h4>{{ sub_comment.user.username }} 回复 {{ sub_comment.parent_comment.user.username }}</h4>
-                                        <div class="sub_comment_content">
-                                            {{ sub_comment.content }}
+                                        <div class="left">
+                                            <img src="{{ sub_comment.user.avatar.url.url }}"
+                                                 alt="">
                                         </div>
-                                        <div class="sub_comment_info">
-                                            <span>{{ sub_comment.create_time }}</span>
-                                            <div>
-                                                <span>点赞({{ sub_comment.digg_count }})</span>
-                                                <span>回复</span>
-                                                <span class="delete">删除</span>
+                                        <div class="right">
+                                            <h4>{{ sub_comment.user.username }} 回复 {{ sub_comment.parent_comment.user.username }}</h4>
+                                            <div class="sub_comment_content">
+                                                {{ sub_comment.content }}
+                                            </div>
+                                            <div class="sub_comment_info">
+                                                <span>{{ sub_comment.create_time }}</span>
+                                                <div>
+                                                    <span>点赞({{ sub_comment.digg_count }})</span>
+                                                    <span @click="sub_comment_set_placeholder($event, '{{ sub_comment.user.username }}', '{{ sub_comment.nid }}')">回复</span>
+                                                    <span class="delete">删除</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 {% endfor %}
+                                <div class="sub_comment_textarea">
+                                    <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content" placeholder="回复 11111"></textarea>
+                                    <button @click="add_sub_comment($event, '{{ article.nid }}')">回复</button>
+                                </div>
+
                             </div>
                         </div>
                     </li>
