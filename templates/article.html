@@ -59,11 +59,11 @@
             <div class="body">
                 <textarea name="" id="" cols="30" rows="10" ref="comment_content" v-model="comment_content" placeholder="写下你想说的话"></textarea>
                 <button class="submit_comment" @click="add_comment({{ article.nid }})">
-                    分布评论
+                    发布评论
                 </button>
             </div>
             <div class="footer">
-                <p><span>50</span>人参与，<span>3</span>条评论</p>
+                <p><span>{{ article.look_count }}</span>人参与，<span>{{ article.comment_count }}</span>条评论</p>
             </div>
         </div>
 
@@ -106,7 +106,9 @@
                                                 <div>
                                                     <span>点赞({{ sub_comment.digg_count }})</span>
                                                     <span @click="sub_comment_set_placeholder($event, '{{ sub_comment.user.username }}', '{{ sub_comment.nid }}')">回复</span>
-                                                    <span class="delete">删除</span>
+                                                    {% if sub_comment.user == request.user or request.user.is_superuser %}
+                                                        <span class="delete" @click="delete_sub_comment('{{ sub_comment.nid }}')">删除</span>
+                                                    {% endif %} 
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +132,6 @@
 {% block js %}
     <script src="/static/editor-md/lib/marked.min.js"></script>
     <script src="/static/editor-md/lib/prettify.min.js"></script>
-    <script src="/static/jquery/jquery.min.js"></script>
     <script src="/static/editor-md/editormd.min.js"></script>
     <script type="text/javascript">
         $(function () {

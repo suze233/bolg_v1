@@ -8,7 +8,7 @@ def find_sub_comment(root_comment, sub_comment_list):
 
 
 def sub_comment_list(nid):
-    comment_query = Comment.objects.filter(article_id=1).order_by('-create_time')
+    comment_query = Comment.objects.filter(article_id=nid).order_by('-create_time')
     comment_list = []
 
     for comment in comment_query:
