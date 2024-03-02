@@ -6,9 +6,10 @@ nav {
   align-items: center;
   padding: 0 120px;
   z-index: 100;
-  position: fixed;  // 固定导航栏位置
+  position: fixed; // 固定导航栏位置
   top: 0;
   left: 0;
+  transition: all 0.3s;
 
   .left {
     width: 60%;
@@ -27,6 +28,7 @@ nav {
 
     .el-dropdown {
       color: white;
+
       span {
         cursor: pointer;
       }
@@ -37,9 +39,23 @@ nav {
     margin-right: 20px;
     //color: var(--nav_color);
     color: white;
+
     &:last-child {
       margin-right: 0;
     }
+  }
+}
+
+nav.show {
+  background-color: white;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+
+  a {
+    color: #333333;
+  }
+
+  .el-dropdown {
+    color: #333333;
   }
 }
 
@@ -62,6 +78,7 @@ header {
       text-align: center;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 18px;
       text-align: center;
@@ -77,6 +94,7 @@ header {
     top: 0;
     transition: all 1s;
     opacity: 0;
+
     &:nth-child(2) {
       opacity: 1;
     }
@@ -136,8 +154,9 @@ footer {
   }
 
   .version {
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
+
     span {
       background-color: #333333;
       display: flex;
@@ -151,6 +170,7 @@ footer {
         background-color: #ff9800;
         border-radius: 5px 0 0 5px;
       }
+
       &:nth-child(2) {
         background-color: #26c6da;
         border-radius: 0 5px 5px 0;
@@ -205,7 +225,7 @@ footer {
 }
 
 .el-dropdown-menu {
-a {
-  color: #333333;
-}
+  a {
+    color: #333333;
+  }
 }

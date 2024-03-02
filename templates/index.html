@@ -18,7 +18,7 @@
 <body>
 <div id="app">
     <link rel="stylesheet" :href="'/static/my/css/theme/' + [[ theme ]] + '.css'">
-    <nav>
+    <nav class="nav_bg">
         <div class="left">
             <a href="/">首页</a>
             <a href="/news">新闻</a>
@@ -411,6 +411,18 @@
 
         menu_img[index].style.opacity = 1
     }, 5000)
+    
+    // 动态导航条
+    let nav = document.querySelector('.nav_bg')
+    window.onscroll = function () {
+        let top = document.documentElement.scrollTop
+        if (top >= 200) {
+            nav.classList.add('show')
+        } else {
+            nav.classList.remove('show')
+        }
+        
+    }
 </script>
 {% block js %}
 
