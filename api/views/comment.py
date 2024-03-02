@@ -3,9 +3,18 @@ from django.forms import forms
 from django.http import JsonResponse
 from django.views import View
 
-from api.utils.find_root_comment import find_root_comment
+# from api.utils.find_root_comment import find_root_comment
 from api.views.login import clean_form
 from app01.models import Comment, Articles
+
+
+# 所有父评论的回复数都+1
+def comment_count_add(comment):
+    parent_comment = comment.parent_comment
+    if parent_comment:
+        parent_comment.comment_count += 1
+        parent_comment.save()
+        return comment_count_add(parent_comment)
 
 
 class CommentView(View):
@@ -40,11 +49,8 @@ class CommentView(View):
                 article_id=nid,
                 parent_comment_id=pid
             )
-            # 根评论加1
-            # 找根评论root
-            root_comment_obj = find_root_comment(comment_obj)
-            root_comment_obj.comment_count += 1
-            root_comment_obj.save()
+            # 所有父评论的回复数都+1
+            comment_count_add(comment_obj)
         else:
             # 根评论
             Comment.objects.create(
@@ -56,7 +62,6 @@ class CommentView(View):
         return JsonResponse(res)
 
     def delete(self, request, nid):
-        # 自己的发布的评论才能删除或者超级管理员
         res = {
             'msg': '评论删除成功',
             'code': 412,
@@ -65,20 +70,23 @@ class CommentView(View):
         login_user = request.user
         comment_query = Comment.objects.filter(nid=nid)
         comment_user = comment_query.first().user
-        if login_user == comment_user or login_user.is_superuser:
-            # 可以删除
-            # 找根评论root
-            root_comment_obj = find_root_comment(comment_query.first())
-            root_comment_obj.comment_count -= 1
-            root_comment_obj.save()
-            # 文章评论数-1
-            aid = comment_query.first().article.nid
-            Articles.objects.filter(nid=aid).update(comment_count=F('comment_count') - 1)
-
-            comment_query.delete()
-            res['code'] = 0
+        # 文章id
+        aid = request.data.get('aid')
+        # 评论的最终根评论id
+        pid = request.data.get('pid')
+        # 自己的发布的评论才能删除或者超级管理员
+        if not (login_user == comment_user or login_user.is_superuser):
+            res['msg'] = '用户验证失败'
             return JsonResponse(res)
 
-        res['msg'] = '用户验证失败'
-        return JsonResponse(res)
+        # 可以删除
+        count = comment_query.first().comment_count  # 子评论数
+        if pid:  # 删除的是子评论
+            # -根评论的回复数
+            Comment.objects.filter(nid=pid).update(comment_count=F('comment_count') - count - 1)
+        # -文章评论数
+        Articles.objects.filter(nid=aid).update(comment_count=F('comment_count') - count - 1)
 
+        comment_query.delete()
+        res['code'] = 0
+        return JsonResponse(res)

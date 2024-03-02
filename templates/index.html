@@ -312,27 +312,28 @@
                         location.reload()
                     }, 500)
                 })
-            }, 
+            },
+            
             //将被评论用户的用户名写到placeholder
             set_sub_placeholder(div, username, cid){
                 $(div).find('textarea').attr('placeholder', `回复 ${username}`)
                 $(div).find('textarea').attr('cid', cid)
             },
-            
+
             //展示子评论列表
             show_sub_comment_list(e, username, cid) {
                 let div = $(e.target).parent().parent().next()
                 $(div).slideToggle()
-                
+
                 this.set_sub_placeholder(div, username, cid)
             },
-            
+
             // 子评论回复显示
             sub_comment_set_placeholder(e, username, cid){
                 let div = $(e.target).parents('.sub_comment_list')
                 this.set_sub_placeholder(div, username, cid)
             },
-            
+
             //发布子评论
             add_sub_comment(e, nid) {
                 // nid: 文章id
@@ -340,7 +341,7 @@
                 axios.post(`/api/article/comment/${nid}/`, {
                     content: $(e.target).prev().val(),
                     pid: $(e.target).prev().attr('cid') // 不是很好啊 我前端改了cid怎么办
-                    
+
                 }).then(res=>{
                     if (res.code) {
                         if (res.self) {
@@ -355,15 +356,20 @@
                     }, 500)
                 })
             },
-            
+
             // 删除子评论
-            delete_sub_comment(nid) {
+            delete_sub_comment(nid, aid, is_root_comment) {
                 this.$confirm('确定删除该评论吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.delete(`/api/article/comment/${nid}/`).then(res=>{
+                    axios.delete(`/api/article/comment/${nid}/`, {
+                        data: {
+                            aid,
+                            pid: is_root_comment
+                        }
+                    }).then(res=>{
                         if (res.code){
                             this.$message.error(res.msg)
                             return
