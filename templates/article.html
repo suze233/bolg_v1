@@ -28,6 +28,17 @@
                 <p>一级标题</p>
             </div>
         </div>
+        <div class="article_actions">
+            <div class="item">
+                
+            </div>
+            <div class="item">
+                
+            </div>
+            <div class="item">
+                
+            </div>
+        </div>
         <div class="article_title">
             <h2>{{ article.title }}
                 {% if request.user.is_superuser %}
@@ -83,8 +94,8 @@
                             <div class="comment_info">
                                 <span>{{ comment.create_time }}</span>
                                 <div>
-                                    <span>点赞({{ comment.digg_count }})</span>
-                                    <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复({{ comment.comment_count }})</span>
+                                    <span @click="comment_digg($event, '{{ comment.nid }}')">点赞（{{ comment.digg_count }}）</span>
+                                    <span @click="show_sub_comment_list($event, '{{ comment.user.username }}', '{{ comment.nid }}')">回复（{{ comment.comment_count }}）</span>
                                     {% if comment.user == request.user or request.user.is_superuser %}
                                         <span class="delete" @click="delete_sub_comment('{{ comment.nid }}', '{{ article.nid }}', null)">删除</span>
                                     {% endif %}
@@ -106,7 +117,7 @@
                                             <div class="sub_comment_info">
                                                 <span>{{ sub_comment.create_time }}</span>
                                                 <div>
-                                                    <span>点赞({{ sub_comment.digg_count }})</span>
+                                                    <span @click="comment_digg($event, '{{ sub_comment.nid }}')">点赞（{{ sub_comment.digg_count }}）</span>
                                                     <span @click="sub_comment_set_placeholder($event, '{{ sub_comment.user.username }}', '{{ sub_comment.nid }}')">回复</span>
                                                     {% if sub_comment.user == request.user or request.user.is_superuser %}
                                                         <span class="delete" @click="delete_sub_comment('{{ sub_comment.nid }}', '{{ article.nid }}', '{{ comment.nid }}')">删除</span>

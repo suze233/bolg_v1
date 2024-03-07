@@ -250,8 +250,8 @@
 <script src="/static/axios/axios.min.js"></script>
 <script>
     // 请求中间件
-    axios.interceptors.request.use (
-            request => {
+    axios.interceptors.request.use(
+        request => {
             if (request.method !== 'get') {
                 let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
                 request.headers['X-CSRFToken'] = csrftoken
@@ -259,7 +259,7 @@
             return request
         },
     )
-    axios.interceptors.response.use (
+    axios.interceptors.response.use(
         response => {
             return response.data
         }
@@ -298,8 +298,8 @@
             },
 
             //发布评论
-            add_comment(nid){
-                axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res=>{
+            add_comment(nid) {
+                axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res => {
                     if (res.code) {
                         if (res.self) {
                             this.$refs[`comment_${res.self}`].focus();
@@ -313,9 +313,9 @@
                     }, 500)
                 })
             },
-            
+
             //将被评论用户的用户名写到placeholder
-            set_sub_placeholder(div, username, cid){
+            set_sub_placeholder(div, username, cid) {
                 $(div).find('textarea').attr('placeholder', `回复 ${username}`)
                 $(div).find('textarea').attr('cid', cid)
             },
@@ -329,7 +329,7 @@
             },
 
             // 子评论回复显示
-            sub_comment_set_placeholder(e, username, cid){
+            sub_comment_set_placeholder(e, username, cid) {
                 let div = $(e.target).parents('.sub_comment_list')
                 this.set_sub_placeholder(div, username, cid)
             },
@@ -342,7 +342,7 @@
                     content: $(e.target).prev().val(),
                     pid: $(e.target).prev().attr('cid') // 不是很好啊 我前端改了cid怎么办
 
-                }).then(res=>{
+                }).then(res => {
                     if (res.code) {
                         if (res.self) {
                             this.$refs[`sub_comment_${res.self}`].focus();
@@ -369,8 +369,8 @@
                             aid,
                             pid: is_root_comment
                         }
-                    }).then(res=>{
-                        if (res.code){
+                    }).then(res => {
+                        if (res.code) {
                             this.$message.error(res.msg)
                             return
                         }
@@ -385,6 +385,18 @@
                         message: '取消删除'
                     });
                 });
+            },
+
+            // 评论点赞
+            comment_digg(e, nid) {
+                axios.post(`/api/comment/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    e.target.innerHTML = `点赞（${res.data}）`
+                    this.$message.success(res.msg)
+                })
             }
         }
 
@@ -411,7 +423,7 @@
 
         menu_img[index].style.opacity = 1
     }, 5000)
-    
+
     // 动态导航条
     let nav = document.querySelector('.nav_bg')
     window.onscroll = function () {
@@ -421,7 +433,7 @@
         } else {
             nav.classList.remove('show')
         }
-        
+
     }
 </script>
 {% block js %}
