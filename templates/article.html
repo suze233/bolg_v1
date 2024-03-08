@@ -30,13 +30,15 @@
         </div>
         <div class="article_actions">
             <div class="item">
-                
+                <i class="fas fa-thumbs-up" @click="article_digg($event, '{{ article.nid }}')"></i>
+                <span>{{ article.digg_count }}</span>
             </div>
             <div class="item">
-                
+                <i class="fas fa-star" @click="article_collects($event, '{{ article.nid }}')"></i>
+                <span>{{ article.collects_count }}</span>
             </div>
             <div class="item">
-                
+                <i class="fas fa-angle-double-up"></i>
             </div>
         </div>
         <div class="article_title">

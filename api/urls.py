@@ -8,4 +8,6 @@ urlpatterns = [
     re_path(r'article/(?P<nid>\d+)/', article.ArticleView.as_view()),  # 修改文章
     re_path(r'article/comment/(?P<nid>\d+)/', comment.CommentView.as_view()),  # 分布评论
     re_path(r'comment/digg/(?P<nid>\d+)/', comment.CommentDiggView.as_view()),  # 评论点赞
+    re_path(r'article/digg/(?P<nid>\d+)/', article.ArticleDiggView.as_view()),  # 文章点赞
+    re_path(r'article/collects/(?P<nid>\d+)/', article.ArticleCollectsView.as_view()),  # 文章收藏
 ]

@@ -397,7 +397,45 @@
                     e.target.innerHTML = `点赞（${res.data}）`
                     this.$message.success(res.msg)
                 })
-            }
+            },
+            
+            // 文章点赞
+            article_digg(e, nid) {
+                let dom = e.target
+                dom.classList.add('show')
+                axios.post(`/api/article/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    $(dom).next().text(res.data)
+                    this.$message.success(res.msg)
+                })
+                let timer = null
+                clearTimeout(timer)
+                timer = setTimeout(()=>{
+                    dom.classList.remove('show')
+                }, 1000)
+            },
+            
+            // 文章收藏
+            article_collects(e, nid) {
+                let dom = e.target
+                axios.post(`/api/article/collects/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    $(dom).next().text(res.data)
+                    if (res.isCollects) {
+                        dom.classList.add('show')
+                        return
+                    }
+                    dom.classList.remove('show')
+                    
+                })
+            },
         }
 
     })

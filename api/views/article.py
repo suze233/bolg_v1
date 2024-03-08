@@ -8,6 +8,7 @@ from pyquery import PyQuery
 
 from api.views.login import clean_form
 from app01.models import Tags, Articles, Cover
+from django.db.models import F
 
 
 # 添加、编辑文章的验证
@@ -119,6 +120,58 @@ class ArticleView(View):
         res['data'] = article_query.first().nid
         return JsonResponse(res)
 
+
+class ArticleDiggView(View):
+    def post(self, request, nid):
+        # nid: 评论id
+        res = {
+            'msg': '点赞成功',
+            'code': 412,
+            'data': 0,
+        }
+
+        comment_query = Articles.objects.filter(nid=nid)
+        comment_query.update(digg_count=F('digg_count') + 1)
+        digg_count = comment_query.first().digg_count
+        res['code'] = 0
+        res['data'] = digg_count
+        return JsonResponse(res)
+
+
+class ArticleCollectsView(View):
+    def post(self, request, nid):
+        # 判断登录
+        # 一个用户只能收藏一次，再次点击为取消收藏
+        res = {
+            'msg': '文章收藏成功',
+            'code': 412,
+            'isCollects': True,  # 是否收藏
+            'data': 0,
+        }
+        if not request.user.username:
+            res['msg'] = '请登录'
+            return JsonResponse(res)
+
+        # 判断用户是否已经收藏文章
+        flag = request.user.collects.filter(nid=nid)
+        num = 1
+        res['code'] = 0
+        if flag:
+            # 用户已经收藏了该文章
+            # 取消收藏
+            res['msg'] = '文章取消收藏成功'
+            request.user.collects.remove(nid)
+            num = -1
+            res['isCollects'] = False
+        else:
+            # 添加收藏
+            request.user.collects.add(nid)
+
+        article_query = Articles.objects.filter(nid=nid)
+        article_query.update(collects_count=F('collects_count') + num)
+        collects_count = article_query.first().collects_count
+        res['data'] = collects_count
+        return JsonResponse(res)
 # 文章
 # class ArticleView(View):
 #     # 发布文章

@@ -94,7 +94,6 @@ class CommentView(View):
 
 class CommentDiggView(View):
     def post(self, request, nid):
-        # nid: 评论id
         res = {
             'msg': '点赞成功',
             'code': 412,
