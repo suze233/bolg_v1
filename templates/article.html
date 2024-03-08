@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-{% load my_tag %}
+{% load my_tag my_filter %}
 {% block css %}
     <link rel="stylesheet" href="/static/editor-md/css/editormd.css">
     <link rel="stylesheet" href="/static/my/css/article.css">
@@ -28,17 +28,17 @@
                 <p>一级标题</p>
             </div>
         </div>
-        <div class="article_actions">
+        <div class="article_actions" title="文章点赞">
             <div class="item">
                 <i class="fas fa-thumbs-up" @click="article_digg($event, '{{ article.nid }}')"></i>
                 <span>{{ article.digg_count }}</span>
             </div>
-            <div class="item">
-                <i class="fas fa-star" @click="article_collects($event, '{{ article.nid }}')"></i>
+            <div class="item" title="文章收藏">
+                <i class="fas fa-star {{ article|is_user_collects:request }}" @click="article_collects($event, '{{ article.nid }}')"></i>
                 <span>{{ article.collects_count }}</span>
             </div>
-            <div class="item">
-                <i class="fas fa-angle-double-up"></i>
+            <div class="item" title="回到顶部">
+                <i class="fas fa-angle-double-up" @click="go_to_top()"></i>
             </div>
         </div>
         <div class="article_title">

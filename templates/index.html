@@ -436,6 +436,13 @@
                     
                 })
             },
+            
+            // 回到顶部
+            go_to_top() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 1000)
+            }
         }
 
     })
